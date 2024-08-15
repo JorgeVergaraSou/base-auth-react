@@ -1,8 +1,29 @@
-/** aca se hace la llamada al backend, en este caso usaremos una api */
-const baseUrl =' https://rickandmortyapi.com/api/'
+import axios from "axios";
+import {jwtDecode} from "jwt-decode";
 
-const characterUrl = baseUrl + 'character/'
+const apiUrl = `${import.meta.env.VITE_API_BASE_URL}`;
 
-export const getMorty = () => {
-    return fetch(characterUrl + '2').then(res => res.json())
+interface DecodedToken {
+  name: string;
+  email: string;
+  role: string;
+  exp: number;
+  iat: number;
 }
+
+export const loginService = async (email: string, password: string) => {
+  try {
+    const res = await axios.post(apiUrl + `/auth/login`, { email, password });
+    const token = res.data.token; 
+
+    // Aseguramos que el token tiene el formato esperado
+    const decoded: DecodedToken = jwtDecode<DecodedToken>(token); 
+   
+    return { token, ...decoded };
+  } catch (error: any) {
+    // Capturamos el mensaje de error del backend
+    const errorMessage = error.response?.data?.message || 'Error desconocido';
+    console.error("Error durante el login:", errorMessage);
+    throw new Error(errorMessage);
+  }
+};

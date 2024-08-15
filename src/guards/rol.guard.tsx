@@ -4,8 +4,8 @@ import { PrivateRoutes } from '../models';
 import { AppStore } from '../redux/store';
 import { Props } from '../interfaces/roles.interface';
 
-function RoleGuard({ rol }: Props) {
+function RoleGuard({ role }: Props) {
   const userState = useSelector((store: AppStore) => store.user);
-  return userState.rol === rol ? <Outlet /> : <Navigate replace to={PrivateRoutes.PRIVATE} />;
+  return userState.role === role ? <Outlet /> : <Navigate replace to={PrivateRoutes.PRIVATE} />;
 }
 export default RoleGuard;
