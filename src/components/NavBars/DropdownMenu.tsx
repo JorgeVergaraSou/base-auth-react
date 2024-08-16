@@ -1,18 +1,24 @@
-// src/components/DropdownMenu.tsx
+import { ChartPieIcon, CursorArrowRaysIcon, FingerPrintIcon, SquaresPlusIcon, ArrowPathIcon } from '@heroicons/react/24/outline';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { PrivateRoutes } from '../../models';
+import Logout from '../Logout/Logout';
 
 type MenuItem = {
   name: string;
-  links: { label: string; path: string }[];
+  description?: string;
+  links: { label: string; path: string; icon?: React.ElementType }[];
 };
 
 const menuItems: MenuItem[] = [
   {
-    name: 'Item 1',
+    name: 'Ingresos',
     links: [
-      { label: 'Link 1', path: '/link1' },
-      { label: 'Link 2', path: '/link2' },
+      { label: 'Compra de Insumos', path: PrivateRoutes.INGRESO_PRODUCTOS, icon: ChartPieIcon },
+      { label: 'Engagement', path: '/admin/1', icon: CursorArrowRaysIcon },
+      { label: 'Security', path: '/admin/2', icon: FingerPrintIcon },
+      { label: 'Integrations', path: '/admin/3', icon: SquaresPlusIcon },
+      { label: 'Automations', path: '/admin/4', icon: ArrowPathIcon },
     ],
   },
   {
@@ -37,44 +43,99 @@ const DropdownMenu: React.FC = () => {
 
   const toggleMenu = () => setIsOpen(!isOpen);
   const handleItemClick = (item: string) => setActiveItem(item === activeItem ? null : item);
+  const handleLinkClick = () => {
+    setIsOpen(false);
+    setActiveItem(null);
+  };
 
-  return (
-    <div className="relative">
-      <button
-        onClick={toggleMenu}
-        className="bg-blue-500 text-white px-4 py-2 rounded-md md:hidden"
-      >
-        Menu
-      </button>
-      <div className={`absolute top-12 right-0 mt-2 w-48 bg-white shadow-lg rounded-md border border-gray-200 ${isOpen ? 'block' : 'hidden'} md:block md:w-64`}>
-        <ul className="flex flex-col">
-          {menuItems.map((item) => (
-            <li key={item.name} className="group">
-              <button
-                onClick={() => handleItemClick(item.name)}
-                className="w-full px-4 py-2 text-left hover:bg-gray-100 focus:outline-none"
-              >
-                {item.name}
-              </button>
-              {activeItem === item.name && (
-                <ul className="flex flex-col bg-gray-50">
-                  {item.links.map((link) => (
-                    <li key={link.path}>
-                      <Link
-                        to={link.path}
-                        className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
-        </ul>
+  return (<>
+    <div className="grid grid-cols-5">
+      <div className=" h-20 w-full col-span-1 justify-content-center">
+        <div className='text-center mt-4'>
+          <Link to={`/${PrivateRoutes.ADMIN}`} replace>
+          Ir a Inicio
+        </Link>
+        </div>
+        
+      </div>
+      <div className=" h-20 w-full col-span-3">
+        <div className={`absolute top-16 right-0 mt-2   rounded-md  ${isOpen ? 'hidden' : 'hidden'} md:static md:flex md:flex-row md:w-auto md:items-center md:justify-center`}>
+          <ul className="flex flex-col md:flex-row">
+            {menuItems.map((item) => (
+              <li key={item.name} className="group relative mr-3">
+                <button
+                  onClick={() => handleItemClick(item.name)}
+                  className="px-4 py-2 text-left hover:bg-cyan-300 cursor-pointer focus:outline-none  hover:animate-wiggle text-black"
+                >
+                  {item.name}
+                </button>
+                {/* Submenú en un dropdown vertical */}
+                {activeItem === item.name && (
+                  <ul className="flex flex-col bg-gray-50 absolute top-full left-0 mt-1 shadow-lg rounded-md w-48">
+                    {item.links.map((link) => (
+                      <li key={link.path}>
+                        <Link
+                          to={link.path}
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                          onClick={handleLinkClick}
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+          <Logout />
+        </div>
+        {/*** Mobile menu */}
+        {isOpen && (
+          <div className="fixed top-11 right-0 z-50 bg-yellow-50 shadow-lg border border-gray-500 rounded-md md:hidden w-64">
+            <ul className="flex flex-col p-4">
+              {menuItems.map((item) => (
+                <li key={item.name} className="group relative mb-1 ">
+                  <button
+                    onClick={() => handleItemClick(item.name)}
+                    className="px-4 py-2 text-left hover:bg-cyan-300 cursor-pointer focus:outline-none  bg-cyan-700 hover:animate-wiggle text-black"
+                  >
+                    {item.name}
+                  </button>
+                  {/* Submenú en un dropdown vertical */}
+                  {activeItem === item.name && (
+                    <ul className="flex flex-col bg-gray-50 mt-1 shadow-lg rounded-md">
+                      {item.links.map((link) => (
+                        <li key={link.path}>
+                          <Link
+                            to={link.path}
+                            className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
+                            onClick={handleLinkClick}
+                          >
+                            {link.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+            <Logout />
+          </div>
+        )}
+      </div>
+      <div className=" h-20 w-full col-span-1">
+        <button
+          onClick={toggleMenu}
+          className="bg-blue-600 text-white px-4 py-2 rounded-md flex items-center justify-center md:hidden"
+        >
+          Menu
+        </button>
+
       </div>
     </div>
+  </>
   );
 };
 

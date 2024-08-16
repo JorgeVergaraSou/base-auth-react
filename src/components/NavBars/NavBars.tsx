@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useEffect } from 'react'
 import { useLocation } from 'react-router-dom'
 import {
@@ -37,21 +35,14 @@ const products = [
 
 export default function NavBars() {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-    const [isPopoverOpen, setIsPopoverOpen] = useState(false) // Estado para controlar el Popover
     const location = useLocation()
 
-    // Cerrar el menú móvil cuando cambia la ruta
     useEffect(() => {
         setMobileMenuOpen(false)
     }, [location])
 
-    // Función para manejar el clic en los enlaces y cerrar el Popover
-    const handleLinkClick = () => {
-        setIsPopoverOpen(false)
-    }
-
     return (
-        <header className="bg-white">
+        <>
             <nav aria-label="Global" className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8">
                 <div className="flex lg:flex-1">
                     <Link to={`/${PrivateRoutes.ADMIN}`} replace>
@@ -70,43 +61,37 @@ export default function NavBars() {
                 </div>
                 <PopoverGroup className="hidden lg:flex lg:gap-x-12">
                     <Popover className="relative">
-                        <PopoverButton
-                            className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
-                            onClick={() => setIsPopoverOpen(!isPopoverOpen)} // Alternar el estado del Popover
-                        >
+                        <PopoverButton className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
                             Ingresos
                             <ChevronDownIcon aria-hidden="true" className="h-5 w-5 flex-none text-gray-400" />
                         </PopoverButton>
-
-                        {isPopoverOpen && ( // Mostrar PopoverPanel solo si isPopoverOpen es true
-                            <PopoverPanel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 transition data-[closed]:translate-y-1 data-[closed]:opacity-0 data-[enter]:duration-200 data-[leave]:duration-150 data-[enter]:ease-out data-[leave]:ease-in">
-                                <div className="p-4">
-                                    {products.map((item) => (
-                                        item && (
-                                            <div
-                                                key={item.name}
-                                                className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
-                                            >
-                                                <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                                                    <item.icon aria-hidden="true" className="h-6 w-6 text-gray-600 group-hover:text-indigo-600" />
-                                                </div>
-                                                <div className="flex-auto">
-                                                    <Link
-                                                        to={item.to}
-                                                        className="block font-semibold text-gray-900"
-                                                        onClick={handleLinkClick} // Cerrar el Popover al hacer clic en un enlace
-                                                    >
-                                                        {item.name}
-                                                        <span className="absolute inset-0" />
-                                                    </Link>
-                                                    <p className="mt-1 text-gray-600">{item.description}</p>
-                                                </div>
+                        <PopoverPanel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+                            <div className="p-4">
+                                {products.map((item) => (
+                                    item && (
+                                        <div
+                                            key={item.name}
+                                            className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
+                                        >
+                                            <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                                <item.icon aria-hidden="true" className="h-6 w-6 text-gray-600 group-hover:text-indigo-600" />
                                             </div>
-                                        )
-                                    ))}
-                                </div>
-                            </PopoverPanel>
-                        )}
+                                            <div className="flex-auto">
+                                                <Link
+                                                    to={item.to}
+                                                    className="block font-semibold text-gray-900"
+                                                    onClick={() => setMobileMenuOpen(false)} // Cerrar el Popover al hacer clic en un enlace
+                                                >
+                                                    {item.name}
+                                                    <span className="absolute inset-0" />
+                                                </Link>
+                                                <p className="mt-1 text-gray-600">{item.description}</p>
+                                            </div>
+                                        </div>
+                                    )
+                                ))}
+                            </div>
+                        </PopoverPanel>
                     </Popover>
 
                     <a href="#" className="text-sm font-semibold leading-6 text-gray-900">
@@ -180,17 +165,12 @@ export default function NavBars() {
                                 </a>
                             </div>
                             <div className="py-6">
-                                <a
-                                    href="#"
-                                    className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                                >
-                                    Log in
-                                </a>
+                                <Logout />
                             </div>
                         </div>
                     </div>
                 </DialogPanel>
             </Dialog>
-        </header>
+        </>
     )
 }

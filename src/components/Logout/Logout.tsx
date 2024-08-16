@@ -14,6 +14,6 @@ function Logout() {
     navigate(PublicRoutes.LOGIN, { replace: true });
 
   };
-  return <button onClick={logOut}>Logout</button>
+  return <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={logOut}>Logout</button>
 }
 export default Logout

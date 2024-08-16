@@ -33,6 +33,7 @@ html {
   margin: 0;
   display: flex;
   flex-direction: column;
+  background-color: beige;
 }
 
 h1 {
@@ -47,12 +48,13 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #f1b244;
+ 
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
   border-color: #646cff;
+
 }
 button:focus,
 button:focus-visible {
