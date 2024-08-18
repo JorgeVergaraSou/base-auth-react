@@ -6,7 +6,7 @@ function AdminPage() {
   const user = useSelector((state: AppStore) => state.user);
 
   return (
-    <div className="flex flex-col text-center">
+    <div className="flex flex-col text-center ">
       <h1 className="text-3xl bg-red-500 font-bold underline">
         Bienvenido, {user.name}
       </h1>

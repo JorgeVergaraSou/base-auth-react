@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { AppStore } from "../../../redux/store";
 
-function IngresoProductos() {
+function IngresoProductosPage() {
     const user = useSelector((state: AppStore) => state.user);
 
     return (
@@ -22,4 +22,4 @@ function IngresoProductos() {
       </div>
     );
 }
-export default IngresoProductos
+export default IngresoProductosPage

@@ -13,56 +13,57 @@ import Admin from './pages/Private/Admin/Admin'
 import Header from './components/Header'
 import IngresoProductos from './pages/Private/Admin/IngresoProductos'
 
+
 const Login = lazy(() => import('./pages/Login/Login'))
 const Private = lazy(() => import('./pages/Private/Private'))
 
 function App() {
 
   return (
+    <div className="relative flex flex-col min-h-screen h-screen">
+      <div className="absolute inset-0 bg-[url('/img/bgfarma.jpg')] bg-cover bg-center opacity-60"></div>
+      <div className="relative z-10">
+        <Suspense fallback={<div>Loading...</div>}>
 
-    <div className='flex flex-col min-h-screen'>
+          <Provider store={store}>
 
-      <Suspense fallback={<div>Loading...</div>}>
-
-        <Provider store={store}>
-
-          <BrowserRouter>
-            <Header />
-            <RoutesWithNotFound>
-
-
-              <Route path='/' element={<Navigate replace to={PrivateRoutes.PRIVATE} />} />
-
-              <Route path={PublicRoutes.LOGIN} element={<Login />} />
-
-              <Route element={<AuthGuard privateValidation={true} />}> /** se usa en esta parte porque intercepta y verifica que esta el usuario registrado */
-
-                <Route path={`${PrivateRoutes.PRIVATE}/*`} element={<Private />} /> /** este es el llamado Outlet del Guard */
-
-              </Route>
-
-              <Route element={<RoleGuard role={Roles.ADMIN} />}>
-                <Route path={PrivateRoutes.ADMIN} element={<Admin />} />
-                <Route path={PrivateRoutes.INGRESO_PRODUCTOS} element={<IngresoProductos />} />
-              </Route>
-
-              <Route element={<RoleGuard role={Roles.USER} />}>
-                <Route path={PrivateRoutes.USER} element={<Admin />} />
-              </Route>
+            <BrowserRouter>
+              <Header />
+              <RoutesWithNotFound>
 
 
+                <Route path='/' element={<Navigate replace to={PrivateRoutes.PRIVATE} />} />
 
-            </RoutesWithNotFound>
+                <Route path={PublicRoutes.LOGIN} element={<Login />} />
 
-          </BrowserRouter>
+                <Route element={<AuthGuard privateValidation={true} />}> /** se usa en esta parte porque intercepta y verifica que esta el usuario registrado */
 
-        </Provider>
+                  <Route path={`${PrivateRoutes.PRIVATE}/*`} element={<Private />} /> /** este es el llamado Outlet del Guard */
 
-      </Suspense>
+                </Route>
+
+                <Route element={<RoleGuard role={Roles.ADMIN} />}>
+                  <Route path={PrivateRoutes.ADMIN} element={<Admin />} />
+                  <Route path={PrivateRoutes.INGRESO_PRODUCTOS} element={<IngresoProductos />} />
+                  <Route path={PrivateRoutes.LOGOUT} element={<Navigate replace to={PublicRoutes.LOGIN} />} />
+                </Route>
+
+                <Route element={<RoleGuard role={Roles.USER} />}>
+                  <Route path={PrivateRoutes.USER} element={<Admin />} />
+                </Route>
 
 
+
+              </RoutesWithNotFound>
+
+            </BrowserRouter>
+
+          </Provider>
+
+        </Suspense>
+
+      </div>
     </div>
-
   )
 }
 

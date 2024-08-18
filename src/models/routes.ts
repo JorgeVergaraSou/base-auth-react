@@ -9,5 +9,6 @@ export const PrivateRoutes = {
     ADMIN: 'admin',
     INGRESO_PRODUCTOS: 'admin/ingreso-productos',
     USER: 'user',
-    GUEST: 'guest'
+    GUEST: 'guest',
+    LOGOUT: 'logout'
 }
