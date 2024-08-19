@@ -1,11 +1,10 @@
-import {  useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
 import { PrivateRoutes, PublicRoutes } from '../models';
 import { AppStore } from '../redux/store';
 import { Props } from '../interfaces/guard.interface';
-//import { clearLocalStorage } from '../utilities';
-//import { UserKey, resetUser } from '../redux/states/user';
-import useLogout from '../components/Logout/Logout';
+import { clearLocalStorage } from '../utilities';
+import { UserKey, resetUser } from '../redux/states/user';
 
 const PrivateValidationFragment = <Outlet />;
 const PublicValidationFragment = <Navigate replace to={PrivateRoutes.PRIVATE} />;
@@ -13,7 +12,7 @@ const PublicValidationFragment = <Navigate replace to={PrivateRoutes.PRIVATE} />
 export const AuthGuard = ({ privateValidation }: Props) => {
   const userState = useSelector((store: AppStore) => store.user);
   const token = localStorage.getItem('token');
- // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   // Obtener el token del localStorage
 
@@ -27,14 +26,11 @@ export const AuthGuard = ({ privateValidation }: Props) => {
 
     // Verificar si el token ha expirado
     if (expirationDate <= currentDate) {
-
-      useLogout();
-/*
       clearLocalStorage(UserKey);
       dispatch(resetUser());
 
       // Redirigir al login si el token ha expirado
-      return <Navigate replace to={PublicRoutes.LOGIN} />;*/
+      return <Navigate replace to={PublicRoutes.LOGIN} />;
     }
   }
 
