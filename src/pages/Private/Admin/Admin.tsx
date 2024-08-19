@@ -13,6 +13,7 @@ function AdminPage() {
 
       <p>Correo: {user.email}</p>
       <p>Rol: {user.role}</p>
+   
       {/* Aquí puedes mostrar más información o componentes basados en los datos del usuario */}
     </div>
   );

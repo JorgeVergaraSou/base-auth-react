@@ -75,7 +75,7 @@ const DropdownMenu: React.FC = () => {
         </div>
         <div className="h-20 w-full col-span-3">
           <div className={`absolute top-16 right-0 mt-2 rounded-md ${isOpen ? 'hidden' : 'hidden'} md:static md:flex md:flex-row md:w-auto md:items-center md:justify-center`}>
-            <Link to={`/${PrivateRoutes.ADMIN}`} replace className="px-2 py-2 bg-gray-100 bg-opacity-80 hover:bg-cyan-300 hover:bg-opacity-75 text-black cursor-pointer hover:rounded-full focus:outline-none hover:animate-wiggle">
+            <Link to={`/${PrivateRoutes.ADMIN}`} replace className="px-2 py-2 rounded-md mr-2 bg-gray-100 bg-opacity-80 hover:bg-cyan-300 hover:bg-opacity-75 text-black cursor-pointer hover:rounded-full focus:outline-none hover:animate-wiggle">
               INICIO
             </Link>
             <ul className="flex flex-col md:flex-row">

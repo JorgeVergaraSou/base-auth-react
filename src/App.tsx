@@ -12,6 +12,7 @@ import RoleGuard from './guards/rol.guard'
 import Admin from './pages/Private/Admin/Admin'
 import Header from './components/Header'
 import IngresoProductos from './pages/Private/Admin/IngresoProductos'
+import UserPage from './pages/Private/User/User'
 
 
 const Login = lazy(() => import('./pages/Login/Login'))
@@ -49,7 +50,7 @@ function App() {
                 </Route>
 
                 <Route element={<RoleGuard role={Roles.USER} />}>
-                  <Route path={PrivateRoutes.USER} element={<Admin />} />
+                  <Route path={PrivateRoutes.USER} element={<UserPage />} />
                 </Route>
 
 
