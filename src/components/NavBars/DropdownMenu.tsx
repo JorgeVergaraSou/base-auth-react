@@ -5,6 +5,7 @@ import { PrivateRoutes, Roles } from '../../models';
 import useLogout from '../Logout/Logout';
 import { useSelector } from 'react-redux';
 import { AppStore } from '../../redux/store';
+import { getRoleRoute } from '../../utilities';
 
 
 type MenuItem = {
@@ -44,7 +45,7 @@ const menuItems: MenuItem[] = [
   {
     name: 'Perfil',
     links: [
-      { label: 'Link 5', path: '/link5' },
+      { label: 'Perfil', path: PrivateRoutes.PERFIL },
       { label: 'Cerrar sesión', path: PrivateRoutes.LOGOUT }, // Aquí sigue usando el icono solo como referencia visual
     ],
   },
@@ -56,16 +57,21 @@ const DropdownMenu: React.FC = () => {
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const logOut = useLogout(); // Obtén la función de logout
 
+  const roleRoute = getRoleRoute(user.role as Roles);
+
+
   const toggleMenu = () => setIsOpen(!isOpen);
   const handleItemClick = (item: string) => setActiveItem(item === activeItem ? null : item);
   const handleLinkClick = (path: string) => {
     if (path === PrivateRoutes.LOGOUT) {
-      logOut(); // Llama a la función de logout
+      logOut(); 
     } else {
       setIsOpen(false);
       setActiveItem(null);
     }
   };
+
+
 
   return (
 <>
@@ -75,7 +81,8 @@ const DropdownMenu: React.FC = () => {
         </div>
         <div className="h-20 w-full col-span-3">
           <div className={`absolute top-16 right-0 mt-2 rounded-md ${isOpen ? 'hidden' : 'hidden'} md:static md:flex md:flex-row md:w-auto md:items-center md:justify-center`}>
-            <Link to={`/${PrivateRoutes.ADMIN}`} replace className="px-2 py-2 rounded-md mr-2 bg-gray-100 bg-opacity-80 hover:bg-cyan-300 hover:bg-opacity-75 text-black cursor-pointer hover:rounded-full focus:outline-none hover:animate-wiggle">
+            
+            <Link to={roleRoute} replace className="px-2 py-2 rounded-md mr-2 bg-gray-100 bg-opacity-80 hover:bg-cyan-300 hover:bg-opacity-75 text-black cursor-pointer hover:rounded-full focus:outline-none hover:animate-wiggle">
               INICIO
             </Link>
             <ul className="flex flex-col md:flex-row">

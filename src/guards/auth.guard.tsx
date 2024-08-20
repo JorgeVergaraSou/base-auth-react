@@ -14,10 +14,6 @@ export const AuthGuard = ({ privateValidation }: Props) => {
   const token = localStorage.getItem('token');
   const dispatch = useDispatch();
 
-  // Obtener el token del localStorage
-
-
-  // Si hay un token
   if (token) {
     // Decodificar el payload del token para obtener la fecha de expiración
     const { exp } = JSON.parse(atob(token.split('.')[1]));

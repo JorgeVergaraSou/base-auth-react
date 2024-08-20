@@ -10,7 +10,6 @@ function UserPage() {
       <h1>Bienvenido {user.name}</h1>
       <p>Correo: {user.email}</p>
       <p>Rol: {user.role}</p>
-      {/* Aquí puedes mostrar más información o componentes basados en los datos del usuario */}
     </div>
   );
 }

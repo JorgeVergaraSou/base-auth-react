@@ -6,7 +6,10 @@ function RoutesWithNotFound({ children }: Props) {
         <Routes>
 
             {children}
-            <Route path="*" element={<div>Not Found</div>} />
+            <Route path="*" element={
+                <div className="text-7xl text-blue-950 text-center">Not Found</div>
+                
+                } />
             
         </Routes>
     )

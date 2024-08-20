@@ -6,15 +6,19 @@ function AdminPage() {
   const user = useSelector((state: AppStore) => state.user);
 
   return (
-    <div className="flex flex-col text-center ">
+    <div className="flex flex-col text-center bg-orange-400">
       <h1 className="text-3xl bg-red-500 font-bold underline">
         Bienvenido, {user.name}
       </h1>
+      <div><h3>Correo: {user.email}</h3>
+      <h4>Rol: {user.role}</h4>
+      </div>
 
-      <p>Correo: {user.email}</p>
-      <p>Rol: {user.role}</p>
-   
-      {/* Aquí puedes mostrar más información o componentes basados en los datos del usuario */}
+      <div className="grid grid-cols-3 gap-4">
+        <div className="bg-gray-200 h-20 w-full">Elemento 1</div>
+        <div className="bg-gray-300 h-20 w-full">ADMIN PAGE</div>
+        <div className="bg-gray-200 h-20 w-full">Elemento 3</div>
+      </div>
     </div>
   );
 }

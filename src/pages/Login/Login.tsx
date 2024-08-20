@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { PrivateRoutes, PublicRoutes, Roles } from '../../models';
+//import { PrivateRoutes, PublicRoutes, Roles } from '../../models';
 import { createUser } from '../../redux/states/user';
 import { loginService } from '../../services/auth.service';
+import { getRoleRoute } from '../../utilities';
+import { Roles } from '../../models';
 
 function Login() {
   const [emailInput, setEmailInput] = useState('');
@@ -26,19 +28,11 @@ function Login() {
       dispatch(createUser({ email, role, token, name }));
       localStorage.setItem('token', token);
 
-      switch (role) {
-        case Roles.ADMIN:
-          navigate(`/${PrivateRoutes.ADMIN}`, { replace: true });
-          break;
-        case Roles.USER:
-          navigate(`/${PrivateRoutes.USER}`, { replace: true });
-          break;
-        case Roles.GUEST:
-          navigate(`/${PrivateRoutes.GUEST}`, { replace: true });
-          break;
-        default:
-          navigate(`/${PublicRoutes.LOGIN}`, { replace: true });
-      }
+      const roleRoute = getRoleRoute(role as Roles);
+       console.log('roleRoute', roleRoute);
+          
+      navigate(roleRoute, { replace: true });
+      
     } catch (error: any) {
       setError(error.message); // Mostrar el mensaje de error
     } finally {
@@ -52,28 +46,28 @@ function Login() {
 
         <div className=" h-full w-full "></div>
 
-        <div className=" h-full w-full bg-slate-300 bg-opacity-50">      
-          <h2>LOGIN</h2>
+        <div className=" h-full w-full bg-slate-300 bg-opacity-50 rounded-lg">      
+          <h2 className='text-3xl text-black '>LOGIN</h2>
           <form onSubmit={handleLogin} className='font-sans space-y-4 w-full max-w-lg'>
             <div>
-              <label htmlFor='email' className='block text-blue-600 text-md font-bold mb-2'>
+              <label htmlFor='email' className='block text-black text-md font-bold mb-2'>
                 Correo electrónico
               </label>
               <input
                 name='email'
                 id='email'
-                className='form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                className='form-control shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-center'
                 type='text'
                 placeholder='email@email.com'
                 onChange={(e) => setEmailInput(e.target.value)}
               />
-              <label htmlFor='password' className='block text-blue-600 text-md font-bold mb-2'>
+              <label htmlFor='password' className='block text-black text-md font-bold mb-2'>
                 Contraseña
               </label>
               <input
                 name='password'
                 id='password'
-                className='form-control shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
+                className='form-control shadow appearance-none border rounded-full w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline text-center'
                 type='password'
                 placeholder='******'
                 onChange={(e) => setPasswordInput(e.target.value)}
