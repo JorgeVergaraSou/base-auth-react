@@ -14,6 +14,7 @@ import UserPage from './pages/Private/User/User'
 import ProfilePage from './pages/Private/Profile'
 import RoutesWithNotFound from './utilities/RoutesWithNotFound.utility'
 import GuestPage from './pages/Private/Guest/Guest'
+import Register from './pages/Register/Register'
 
 
 const Login = lazy(() => import('./pages/Login/Login'))
@@ -36,6 +37,7 @@ function App() {
                 <Route path='/' element={<Navigate replace to={PrivateRoutes.PRIVATE} />} />
 
                 <Route path={PublicRoutes.LOGIN} element={<Login />} />
+                <Route path={PublicRoutes.REGISTER} element={<Register />} />
 
                 <Route element={<AuthGuard privateValidation={true} />}> /** se usa en esta parte porque intercepta y verifica que esta el usuario registrado */
 
