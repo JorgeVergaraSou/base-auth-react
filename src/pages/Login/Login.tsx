@@ -26,7 +26,7 @@ function Login() {
       const { token, email, role, name } = await loginService(emailInput, passwordInput);
 
       dispatch(createUser({ email, role, token, name }));
-      localStorage.setItem('token', token);
+      //localStorage.setItem('token', token);
 
       const roleRoute = getRoleRoute(role as Roles);
        console.log('roleRoute', roleRoute);

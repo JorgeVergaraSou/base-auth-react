@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+//import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createUser } from "../../redux/states/user";
+//import { createUser } from "../../redux/states/user";
 import { registerService } from "../../services/register.service";
-import { getRoleRoute } from "../../utilities";
-import { DecodedToken } from "../../interfaces/decode.token.interface";
-import { Roles } from "../../models";
+import { PublicRoutes } from "../../models";
+//import { getRoleRoute } from "../../utilities";
+//import { DecodedToken } from "../../interfaces/decode.token.interface";
+//import { Roles } from "../../models";
 
 
 function RegisterPage() {
@@ -17,7 +18,7 @@ function RegisterPage() {
   const [passwordRepeatInput, setPasswordRepeatInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const dispatch = useDispatch();
+  //const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleRegister = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -31,11 +32,20 @@ function RegisterPage() {
     setLoading(true);
     setError('');
     try {
-      const user: DecodedToken = await registerService(nameInput, emailInput, passwordInput, secretWord);
-      dispatch(createUser(user));
-      navigate(getRoleRoute(user.role as Roles), { replace: true });
+      const response = await registerService(nameInput, emailInput, passwordInput, secretWord);
+     
+      alert(response.message); 
+      if (response.success) {
+        alert(response.message);
+
+        navigate(`/${PublicRoutes.LOGIN}`);
+      } else {
+        alert(response.message);
+      }
+
     } catch (error: any) {
-      setError(error.message);
+    
+      alert(error.message); 
     } finally {
       setLoading(false);
     }
