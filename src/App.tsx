@@ -32,37 +32,43 @@ function App() {
 
             <BrowserRouter>
               <Header />
+
               <RoutesWithNotFound>
 
+                {/* Rutas públicas */}
                 <Route path='/' element={<Navigate replace to={PrivateRoutes.PRIVATE} />} />
-
                 <Route path={PublicRoutes.LOGIN} element={<Login />} />
                 <Route path={PublicRoutes.REGISTER} element={<Register />} />
 
-                <Route element={<AuthGuard privateValidation={true} />}> /** se usa en esta parte porque intercepta y verifica que esta el usuario registrado */
+                {/* Rutas privadas protegidas por AuthGuard */}
+                <Route element={<AuthGuard privateValidation={true} />}>
 
-                  <Route path={`${PrivateRoutes.PRIVATE}/*`} element={<Private />} /> /** este es el llamado Outlet del Guard */
+                  {/* Rutas accesibles para todos los usuarios autenticados */}
+                  <Route path={`${PrivateRoutes.PRIVATE}/*`} element={<Private />} />
                   <Route path={PrivateRoutes.PERFIL} element={<ProfilePage />} />
-                </Route>
 
-                <Route element={<RoleGuard role={Roles.ADMIN} />}>
-                  <Route path={PrivateRoutes.ADMIN} element={<Admin />} />
-                  <Route path={PrivateRoutes.INGRESO_PRODUCTOS} element={<IngresoProductos />} />
+                  {/* Rutas protegidas por RoleGuard */}
+                  <Route element={<RoleGuard role={Roles.ADMIN} />}>
+                    <Route path={PrivateRoutes.ADMIN} element={<Admin />} />
+                    <Route path={PrivateRoutes.INGRESO_PRODUCTOS} element={<IngresoProductos />} />
+                  </Route>
+
+                  <Route element={<RoleGuard role={Roles.USER} />}>
+                    <Route path={PrivateRoutes.USER} element={<UserPage />} />
+                    <Route path={PrivateRoutes.INGRESO_PRODUCTOS} element={<IngresoProductos />} />
+                  </Route>
+
+                  <Route element={<RoleGuard role={Roles.GUEST} />}>
+                    <Route path={PrivateRoutes.GUEST} element={<GuestPage />} />
+                  </Route>
+
+                  {/* Ruta para logout */}
                   <Route path={PrivateRoutes.LOGOUT} element={<Navigate replace to={PublicRoutes.LOGIN} />} />
+
                 </Route>
-
-                <Route element={<RoleGuard role={Roles.USER} />}>
-                  <Route path={PrivateRoutes.USER} element={<UserPage />} />
-                  <Route path={PrivateRoutes.INGRESO_PRODUCTOS} element={<IngresoProductos />} />
-                </Route>
-
-                <Route element={<RoleGuard role={Roles.GUEST} />}>
-                  <Route path={PrivateRoutes.GUEST} element={<GuestPage />} />                 
-                </Route>
-
-
 
               </RoutesWithNotFound>
+
 
             </BrowserRouter>
 
