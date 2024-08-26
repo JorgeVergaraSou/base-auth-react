@@ -23,9 +23,9 @@ function Login() {
     setLoading(true);
     setError('');
     try {
-      const { token, email, role, name } = await loginService(emailInput, passwordInput);
+      const { token, email, role, name, idUser } = await loginService(emailInput, passwordInput);
 
-      dispatch(createUser({ email, role, token, name }));
+      dispatch(createUser({ email, role, token, name, idUser }));
 
       const roleRoute = getRoleRoute(role as Roles);
 

@@ -3,7 +3,7 @@ import { Roles, UserInfo } from "../../models";
 import { clearLocalStorage, persistLocalStorage } from "../../utilities";
 
 export const EmptyUserState: UserInfo = {
-    id: 0,
+    idUser: 0,
     name: '',
     email: '',
     role: Roles.EMPTY,

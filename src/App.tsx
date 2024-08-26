@@ -1,6 +1,5 @@
 
 import { BrowserRouter, Navigate, Route } from 'react-router-dom'
-import './App.css'
 import { PrivateRoutes, PublicRoutes, Roles } from './models'
 import { AuthGuard } from './guards'
 import { Suspense, lazy } from 'react'
