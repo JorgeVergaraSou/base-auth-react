@@ -3,14 +3,7 @@ import {jwtDecode} from "jwt-decode";
 import { DecodedToken } from "../interfaces/decode.token.interface";
 
 const apiUrl = `${import.meta.env.VITE_API_BASE_URL}`;
-/*
-interface DecodedToken {
-  name: string;
-  email: string;
-  role: string;
-  exp: number;
-  iat: number;
-}*/
+
 
 export const loginService = async (email: string, password: string) => {
   try {

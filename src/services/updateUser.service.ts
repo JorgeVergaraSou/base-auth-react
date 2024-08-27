@@ -1,29 +1,37 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { AppStore } from "../redux/store";
+
 
 const apiUrl = `${import.meta.env.VITE_API_BASE_URL}`;
-const user = useSelector((state: AppStore) => state.user);
-export const updateUserService = async (name: string, email: string, password: string, secretWord: string) => {
+
+export const updateUserServiceAxios = async (idUser: number, updateData: { name?: string, newEmail?: string, newPassword?: string, newSecretWord?: string }) => {
   try {
-    const res = await axios.post(apiUrl + `/auth/'updateUser/`+user.idUser, { name, email, password, secretWord });
-    
-    // Accede al mensaje devuelto por el backend
+    const token = localStorage.getItem("token"); // Obtener el token de localStorage
 
-   console.log('res.data', res.data);
-   
-    const successMessage = res.data.message; 
-    console.log('Mensaje de éxito:', successMessage);
+    if (!token) {
+      throw new Error('No se encontró el token. Por favor, inicia sesión nuevamente.');
+    }
 
-    const successOk = res.data.success; 
-    console.log('Mensaje de éxito:', successOk);
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`, // Configurar el encabezado Authorization
+    };
     
-    // Retorna el mensaje para ser usado en el frontend
-    return res.data;  // Aquí res.data contiene el mensaje y el token si es exitoso
+    console.log('Cabeceras enviadas:', headers); // Imprime las cabeceras en la consola
+    
+
+    const cleanedUpdateData = Object.fromEntries(
+      Object.entries(updateData).filter(([_, v]) => v != null)
+    );
+
+    const res = await axios.patch(`${apiUrl}/auth/updateUser/${idUser}`, cleanedUpdateData, { headers });
+
+    console.log('Respuesta del servidor:', res.data);
+
+    return res.data;
 
   } catch (error: any) {
-    // Manejo de errores como antes
     const errorMessage = error.response?.data?.message || 'Error desconocido';
+    console.error('Error en la actualización:', errorMessage);
     throw new Error(errorMessage);
   }
 };
