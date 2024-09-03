@@ -77,10 +77,18 @@ function ProfilePage() {
       if (error.response) {
         // El servidor envió una respuesta fuera del rango 2xx
         console.error('Error del servidor:', error.response.data.message);
+        alert(error.response.data.message);
+  
       } else {
         // Error en la solicitud
         console.error('Error en la solicitud:', error.message);
+        alert(error.message);
+ 
       }
+      setNewName('');
+      setNewEmail('');
+      setNewPassword('');
+      setCurrentPassword('');
     }
   };
 
