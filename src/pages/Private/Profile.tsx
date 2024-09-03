@@ -72,9 +72,15 @@ function ProfilePage() {
       setNewPassword('');
       setCurrentPassword('');
 
-    } catch (error) {
-      console.error('Error en la actualización:', error);
-      setMessage('Ocurrió un error al actualizar los datos.');
+    } catch (error: any) {
+      // Captura el error enviado por el filtro de excepciones
+      if (error.response) {
+        // El servidor envió una respuesta fuera del rango 2xx
+        console.error('Error del servidor:', error.response.data.message);
+      } else {
+        // Error en la solicitud
+        console.error('Error en la solicitud:', error.message);
+      }
     }
   };
 
