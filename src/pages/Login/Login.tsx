@@ -5,6 +5,7 @@ import { createUser } from '@/redux/states/user';
 import { loginService } from '@/services';
 import { getErrorMessage, getRoleRoute } from '@/utilities';
 import { PublicRoutes, Roles } from '@/models';
+import { Button } from '@/components/ui';
 
 function Login() {
   const [emailInput, setEmailInput] = useState('');
@@ -73,8 +74,14 @@ function Login() {
                 onChange={(e) => setPasswordInput(e.target.value)}
               />
             </div>
-            <button type="submit" disabled={loading}>Entrar</button>
-            <button onClick={() => navigate(`/${PublicRoutes.REGISTER}`)}>Registrarse</button>
+            <Button type="submit" disabled={loading}>Entrar</Button>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => navigate(`/${PublicRoutes.REGISTER}`)}
+            >
+              Registrarse
+            </Button>
 
             {error && <p>{error}</p>} {/* Mostrar el error */}
           </form>

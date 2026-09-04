@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { profileService, updateUserService } from "@/services";
 import { getErrorMessage } from "@/utilities";
 import { User } from "@/interfaces";
+import { Button } from "@/components/ui";
 
 function ProfilePage() {
   const user = useSelector((state: AppStore) => state.user);
@@ -99,7 +100,7 @@ function ProfilePage() {
                       placeholder="Cambiar nombre"
                       value={newName}
                       onChange={(e) => setNewName(e.target.value)} />
-                    <button onClick={() => handleUpdate('name')}>Cambiar nombre</button>
+                    <Button onClick={() => handleUpdate('name')}>Cambiar nombre</Button>
                   </div>
                 </li>
                 <li>
@@ -111,7 +112,7 @@ function ProfilePage() {
                       value={newEmail}
                       onChange={(e) => setNewEmail(e.target.value)}
                     />
-                    <button onClick={() => handleUpdate('email')}>Cambiar email</button>
+                    <Button onClick={() => handleUpdate('email')}>Cambiar email</Button>
                   </div>
                 </li>
                 <li>
@@ -123,7 +124,7 @@ function ProfilePage() {
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
                     />
-                    <button onClick={() => handleUpdate('password')}>Cambiar contraseña</button>
+                    <Button onClick={() => handleUpdate('password')}>Cambiar contraseña</Button>
                   </div>
                 </li>
 

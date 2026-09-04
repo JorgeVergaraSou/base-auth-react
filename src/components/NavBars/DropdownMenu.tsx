@@ -6,7 +6,7 @@ import useLogout from '../Logout/Logout';
 import { useSelector } from 'react-redux';
 import { AppStore } from '@/redux/store';
 import { getRoleRoute } from '@/utilities';
-
+import { MenuToggleButton, SubmenuItem } from '../ui';
 
 type MenuItem = {
   name: string;
@@ -63,7 +63,7 @@ const DropdownMenu: React.FC = () => {
   const handleItemClick = (item: string) => setActiveItem(item === activeItem ? null : item);
   const handleLinkClick = (path: string) => {
     if (path === PrivateRoutes.LOGOUT) {
-      logOut(); 
+      logOut();
     } else {
       setIsOpen(false);
       setActiveItem(null);
@@ -80,7 +80,7 @@ const DropdownMenu: React.FC = () => {
         </div>
         <div className="h-20 w-full col-span-3">
           <div className="absolute top-16 right-0 mt-2 rounded-md hidden md:static md:flex md:flex-row md:w-auto md:items-center md:justify-center">
-            
+
             <Link to={roleRoute} replace className="px-2 py-2 rounded-md mr-2 bg-gray-100 bg-opacity-80 hover:bg-cyan-300 hover:bg-opacity-75 text-black cursor-pointer hover:rounded-full focus:outline-none hover:animate-wiggle">
               INICIO
             </Link>
@@ -88,38 +88,20 @@ const DropdownMenu: React.FC = () => {
               {menuItems.map((item) => (
                 (item.name !== 'Configuraciones' || user.role === Roles.ADMIN) && (
                   <li key={item.name} className="group relative mr-3">
-                    <button
-                      onClick={() => handleItemClick(item.name)}
-                      className="px-2 py-2 bg-gray-100 bg-opacity-80 hover:bg-cyan-300 hover:bg-opacity-75 text-black cursor-pointer hover:rounded-full focus:outline-none hover:animate-wiggle"
-                    >
+                    <MenuToggleButton variant="desktop" onClick={() => handleItemClick(item.name)}>
                       {item.name}
-                    </button>
+                    </MenuToggleButton>
                     {/* Submenú en un dropdown vertical */}
                     {activeItem === item.name && (
                       <ul className="flex flex-col bg-gray-50 absolute top-full left-0 mt-1 shadow-lg rounded-md w-48">
                         {item.links?.map((link) => (
                           <li key={link.path}>
-                            {link.path === PrivateRoutes.LOGOUT ? (
-                              // Botón, no Link: cerrar sesión es una acción,
-                              // no una navegación a contenido (y evita el
-                              // Link disparando su propia navegación además
-                              // del logout que ya maneja handleLinkClick).
-                              <button
-                                type="button"
-                                onClick={() => handleLinkClick(link.path)}
-                                className="block w-full text-left px-4 py-2 bg-gray-100 bg-opacity-80 hover:bg-gray-200 hover:bg-opacity-75 text-gray-700"
-                              >
-                                {link.label}
-                              </button>
-                            ) : (
-                              <Link
-                                to={link.path}
-                                className="block px-4 py-2 bg-gray-100 bg-opacity-80 hover:bg-gray-200 hover:bg-opacity-75 text-gray-700"
-                                onClick={() => handleLinkClick(link.path)}
-                              >
-                                {link.label}
-                              </Link>
-                            )}
+                            <SubmenuItem
+                              label={link.label}
+                              path={link.path}
+                              isAction={link.path === PrivateRoutes.LOGOUT}
+                              onSelect={handleLinkClick}
+                            />
                           </li>
                         ))}
                       </ul>
@@ -136,34 +118,20 @@ const DropdownMenu: React.FC = () => {
                 {menuItems.map((item) => (
                   (item.name !== 'Configuraciones' || user.role === Roles.ADMIN) && (
                     <li key={item.name} className="group relative mb-1">
-                      <button
-                        onClick={() => handleItemClick(item.name)}
-                        className="px-2 py-2 bg-cyan-700 bg-opacity-80 hover:bg-cyan-500 hover:bg-opacity-75 text-left text-black cursor-pointer focus:outline-none hover:animate-wiggle"
-                      >
+                      <MenuToggleButton variant="mobile" onClick={() => handleItemClick(item.name)}>
                         {item.name}
-                      </button>
+                      </MenuToggleButton>
                       {/* Submenú en un dropdown vertical */}
                       {activeItem === item.name && (
                         <ul className="flex flex-col bg-gray-50 mt-1 shadow-lg rounded-md">
                           {item.links?.map((link) => (
                             <li key={link.path}>
-                              {link.path === PrivateRoutes.LOGOUT ? (
-                                <button
-                                  type="button"
-                                  onClick={() => handleLinkClick(link.path)}
-                                  className="block w-full text-left px-4 py-2 bg-gray-100 bg-opacity-80 hover:bg-gray-200 hover:bg-opacity-75 text-gray-700"
-                                >
-                                  {link.label}
-                                </button>
-                              ) : (
-                                <Link
-                                  to={link.path}
-                                  className="block px-4 py-2 bg-gray-100 bg-opacity-80 hover:bg-gray-200 hover:bg-opacity-75 text-gray-700"
-                                  onClick={() => handleLinkClick(link.path)}
-                                >
-                                  {link.label}
-                                </Link>
-                              )}
+                              <SubmenuItem
+                                label={link.label}
+                                path={link.path}
+                                isAction={link.path === PrivateRoutes.LOGOUT}
+                                onSelect={handleLinkClick}
+                              />
                             </li>
                           ))}
                         </ul>

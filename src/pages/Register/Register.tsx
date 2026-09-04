@@ -4,6 +4,7 @@ import { registerService } from "@/services";
 import { PublicRoutes } from "@/models";
 import { getErrorMessage } from "@/utilities";
 import { showError, showSuccess } from "@/utilities/alerts/alert.utils";
+import { Button } from "@/components/ui";
 
 
 function RegisterPage() {
@@ -101,7 +102,7 @@ function RegisterPage() {
                 onChange={(e) => setPasswordRepeatInput(e.target.value)}
               />
             </div>
-            <button type="submit" disabled={loading}>Crear cuenta</button>
+            <Button type="submit" disabled={loading}>Crear cuenta</Button>
 
             {error && <p>{error}</p>}
           </form>
