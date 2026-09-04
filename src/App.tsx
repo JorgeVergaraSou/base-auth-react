@@ -10,6 +10,7 @@ import Admin from './pages/Private/Admin/Admin'
 import Header from './components/Header'
 import UserPage from './pages/Private/User/User'
 import ProfilePage from './pages/Private/Profile'
+import { LogoutRoute } from './components/Logout/LogoutRoute'
 import RoutesWithNotFound from './utilities/RoutesWithNotFound.utility'
 import GuestPage from './pages/Private/Guest/Guest'
 import Register from './pages/Register/Register'
@@ -58,7 +59,7 @@ function App() {
                   </Route>
 
                   {/* Ruta para logout */}
-                  <Route path={PrivateRoutes.LOGOUT} element={<Navigate replace to={PublicRoutes.LOGIN} />} />
+                  <Route path={PrivateRoutes.LOGOUT} element={<LogoutRoute />} />
                 </Route>
               </RoutesWithNotFound>
             </BrowserRouter>

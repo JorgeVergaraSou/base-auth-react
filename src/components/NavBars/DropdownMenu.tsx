@@ -99,13 +99,27 @@ const DropdownMenu: React.FC = () => {
                       <ul className="flex flex-col bg-gray-50 absolute top-full left-0 mt-1 shadow-lg rounded-md w-48">
                         {item.links?.map((link) => (
                           <li key={link.path}>
-                            <Link
-                              to={link.path}
-                              className="block px-4 py-2 bg-gray-100 bg-opacity-80 hover:bg-gray-200 hover:bg-opacity-75 text-gray-700"
-                              onClick={() => handleLinkClick(link.path)}
-                            >
-                              {link.label}
-                            </Link>
+                            {link.path === PrivateRoutes.LOGOUT ? (
+                              // Botón, no Link: cerrar sesión es una acción,
+                              // no una navegación a contenido (y evita el
+                              // Link disparando su propia navegación además
+                              // del logout que ya maneja handleLinkClick).
+                              <button
+                                type="button"
+                                onClick={() => handleLinkClick(link.path)}
+                                className="block w-full text-left px-4 py-2 bg-gray-100 bg-opacity-80 hover:bg-gray-200 hover:bg-opacity-75 text-gray-700"
+                              >
+                                {link.label}
+                              </button>
+                            ) : (
+                              <Link
+                                to={link.path}
+                                className="block px-4 py-2 bg-gray-100 bg-opacity-80 hover:bg-gray-200 hover:bg-opacity-75 text-gray-700"
+                                onClick={() => handleLinkClick(link.path)}
+                              >
+                                {link.label}
+                              </Link>
+                            )}
                           </li>
                         ))}
                       </ul>
@@ -133,13 +147,23 @@ const DropdownMenu: React.FC = () => {
                         <ul className="flex flex-col bg-gray-50 mt-1 shadow-lg rounded-md">
                           {item.links?.map((link) => (
                             <li key={link.path}>
-                              <Link
-                                to={link.path}
-                                className="block px-4 py-2 bg-gray-100 bg-opacity-80 hover:bg-gray-200 hover:bg-opacity-75 text-gray-700"
-                                onClick={() => handleLinkClick(link.path)}
-                              >
-                                {link.label}
-                              </Link>
+                              {link.path === PrivateRoutes.LOGOUT ? (
+                                <button
+                                  type="button"
+                                  onClick={() => handleLinkClick(link.path)}
+                                  className="block w-full text-left px-4 py-2 bg-gray-100 bg-opacity-80 hover:bg-gray-200 hover:bg-opacity-75 text-gray-700"
+                                >
+                                  {link.label}
+                                </button>
+                              ) : (
+                                <Link
+                                  to={link.path}
+                                  className="block px-4 py-2 bg-gray-100 bg-opacity-80 hover:bg-gray-200 hover:bg-opacity-75 text-gray-700"
+                                  onClick={() => handleLinkClick(link.path)}
+                                >
+                                  {link.label}
+                                </Link>
+                              )}
                             </li>
                           ))}
                         </ul>
