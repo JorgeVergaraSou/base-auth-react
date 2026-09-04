@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { resetUser, UserKey } from '@/redux/states/user';
-import { clearLocalStorage } from '@/utilities';
+import { resetUser } from '@/redux/states/user';
 import { PublicRoutes } from '@/models';
 
 function useLogout() {
@@ -9,9 +8,10 @@ function useLogout() {
   const dispatch = useDispatch();
 
   const logOut = () => {
-    clearLocalStorage(UserKey);
+    // resetUser ya limpia el localStorage (ver redux/states/user.ts), no
+    // hace falta duplicarlo acá.
     dispatch(resetUser());
-    navigate(PublicRoutes.LOGIN, { replace: true });
+    navigate(`/${PublicRoutes.LOGIN}`, { replace: true });
   };
 
   return logOut;

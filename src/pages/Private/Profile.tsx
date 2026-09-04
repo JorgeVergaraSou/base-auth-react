@@ -26,8 +26,15 @@ function ProfilePage() {
     }
   };
 
+  // No usa fetchProfileData() acá: el linter (react-hooks/set-state-in-effect,
+  // desde eslint-plugin-react-hooks 7) marca como error llamar dentro de un
+  // efecto a una función que termina llamando setState, aunque sea async.
+  // Encadenar la promesa evita el falso positivo; fetchProfileData() sigue
+  // usándose para refrescar el perfil después de un update (handleUpdate).
   useEffect(() => {
-    fetchProfileData();
+    profileService()
+      .then((response) => setProfileData(response.profile))
+      .catch((error) => setMessage(getErrorMessage(error)));
   }, []);
 
   const handleUpdate = async (field: string) => {
